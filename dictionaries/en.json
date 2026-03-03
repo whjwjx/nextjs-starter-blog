@@ -1,0 +1,43 @@
+{
+  "site": {
+    "title": "Hua Jiang Blog",
+    "description": "Technical blog of an AI Full-stack Developer"
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "tags": "Tags",
+    "projects": "Projects",
+    "about": "About"
+  },
+  "blog": {
+    "all_posts": "All Posts",
+    "search": "Search articles",
+    "no_posts": "No posts found.",
+    "read_more": "Read more",
+    "tags": "Tags",
+    "published_on": "Published on",
+    "authors": "Authors",
+    "discuss_twitter": "Discuss on Twitter",
+    "prev_post": "Previous Article",
+    "next_post": "Next Article"
+  },
+  "common": {
+    "prev": "Previous",
+    "next": "Next",
+    "page_x_of_y": "Page {current} of {total}"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Showcase your projects"
+  },
+  "about": {
+    "title": "About"
+  },
+  "404": {
+    "title": "404",
+    "description": "Sorry we couldn't find this page.",
+    "suggestion": "But dont worry, you can find plenty of other things on our homepage.",
+    "back_home": "Back to homepage"
+  }
+}

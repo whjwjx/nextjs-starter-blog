@@ -10,18 +10,23 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 
-interface PaginationProps {
+export interface PaginationProps {
   totalPages: number
   currentPage: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dict?: any
 }
-interface ListLayoutProps {
+export interface ListLayoutProps {
   posts: CoreContent<Blog>[]
   title: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dict?: any
+  locale?: string
 }
 
-function Pagination({ totalPages, currentPage }: PaginationProps) {
+function Pagination({ totalPages, currentPage, dict }: PaginationProps) {
   const pathname = usePathname()
   const segments = pathname.split('/')
   const lastSegment = segments[segments.length - 1]
@@ -32,12 +37,18 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
 
+  const prevText = dict?.common?.prev || '上一页'
+  const nextText = dict?.common?.next || '下一页'
+  const pageText = dict?.common?.page_x_of_y
+    ? dict.common.page_x_of_y.replace('{current}', currentPage).replace('{total}', totalPages)
+    : `第 ${currentPage} 页 / 共 ${totalPages} 页`
+
   return (
     <div className="space-y-2 pt-6 pb-8 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            上一页
+            {prevText}
           </button>
         )}
         {prevPage && (
@@ -45,20 +56,18 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
-            上一页
+            {prevText}
           </Link>
         )}
-        <span>
-          第 {currentPage} 页 / 共 {totalPages} 页
-        </span>
+        <span>{pageText}</span>
         {!nextPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            下一页
+            {nextText}
           </button>
         )}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            下一页
+            {nextText}
           </Link>
         )}
       </nav>
@@ -71,11 +80,16 @@ export default function ListLayoutWithTags({
   title,
   initialDisplayPosts = [],
   pagination,
+  dict,
+  locale = 'en',
 }: ListLayoutProps) {
   const pathname = usePathname()
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
+
+  // Filter tags by current locale (tags are stored as "locale-tagSlug")
+  const localeTagKeys = tagKeys.filter((key) => key.startsWith(`${locale}-`))
+  const sortedTags = localeTagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
@@ -90,31 +104,47 @@ export default function ListLayoutWithTags({
         <div className="flex sm:space-x-12 xl:space-x-16">
           <div className="hidden h-full max-h-screen max-w-[280px] min-w-[280px] flex-wrap overflow-auto rounded-xl bg-gray-50/50 pt-5 shadow-sm sm:flex dark:bg-gray-900/30 dark:shadow-none">
             <div className="px-6 py-4">
-              {pathname.startsWith('/blog') ? (
-                <h3 className="text-primary-500 font-bold uppercase">所有文章</h3>
+              {pathname.startsWith(`/${locale}/blog`) || pathname === `/${locale}/blog` ? (
+                <h3 className="text-primary-500 font-bold uppercase">
+                  {dict?.blog?.all_posts || 'All Posts'}
+                </h3>
               ) : (
                 <Link
-                  href={`/blog`}
+                  href={`/${locale}/blog`}
                   className="hover:text-primary-500 dark:hover:text-primary-500 font-bold text-gray-700 uppercase dark:text-gray-300"
                 >
-                  所有文章
+                  {dict?.blog?.all_posts || 'All Posts'}
                 </Link>
               )}
               <ul>
                 {sortedTags.map((t) => {
+                  // Extract raw tag name from "locale-tagSlug"
+                  // Actually t is just the key. The tag name is part of the key.
+                  // But wait, the key is constructed from slug(tag).
+                  // We need to display the original tag text?
+                  // tagData keys are slugs. The original text is lost in tag-data.json.
+                  // But usually tags are displayed as slugs or capitalised slugs.
+                  // Let's check how it was done before.
+                  // Before: {sortedTags.map((t) => <Tag key={t} text={t} />)}
+                  // So `t` was the tag string.
+                  // In `createTagCount`, we used `slug(tag)`. So `t` is a slug.
+
+                  // Now `t` is `locale-slug`. We need to extract `slug`.
+                  const tagSlug = t.replace(`${locale}-`, '')
+
                   return (
                     <li key={t} className="my-3">
-                      {decodeURI(pathname.split('/tags/')[1]) === slug(t) ? (
+                      {decodeURI(pathname.split('/tags/')[1]) === tagSlug ? (
                         <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
-                          {`${t} (${tagCounts[t]})`}
+                          {`${tagSlug} (${tagCounts[t]})`}
                         </h3>
                       ) : (
                         <Link
-                          href={`/tags/${slug(t)}`}
+                          href={`/${locale}/tags/${tagSlug}`}
                           className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
-                          aria-label={`View posts tagged ${t}`}
+                          aria-label={`View posts tagged ${tagSlug}`}
                         >
-                          {`${t} (${tagCounts[t]})`}
+                          {`${tagSlug} (${tagCounts[t]})`}
                         </Link>
                       )}
                     </li>
@@ -134,19 +164,24 @@ export default function ListLayoutWithTags({
                         <dt className="sr-only">Published on</dt>
                         <dd className="text-sm leading-6 font-medium text-gray-500 dark:text-gray-400">
                           <time dateTime={date} suppressHydrationWarning>
-                            {formatDate(date, siteMetadata.locale)}
+                            {formatDate(date, locale)}
                           </time>
                         </dd>
                       </dl>
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                            <Link
+                              href={`/${locale}/${path}`}
+                              className="text-gray-900 dark:text-gray-100"
+                            >
                               {title}
                             </Link>
                           </h2>
                           <div className="mt-2 flex flex-wrap gap-2">
-                            {tags?.map((tag) => <Tag key={tag} text={tag} />)}
+                            {tags?.map((tag) => (
+                              <Tag key={tag} text={tag} locale={locale} />
+                            ))}
                           </div>
                         </div>
                         <div className="prose max-w-none text-gray-600 dark:text-gray-400">
@@ -159,7 +194,11 @@ export default function ListLayoutWithTags({
               })}
             </ul>
             {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                dict={dict}
+              />
             )}
           </div>
         </div>

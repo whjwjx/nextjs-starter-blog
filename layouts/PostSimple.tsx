@@ -9,14 +9,24 @@ import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
-interface LayoutProps {
+export interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode
-  next?: { path: string; title: string }
-  prev?: { path: string; title: string }
+  next?: { path: string; title: string; slug?: string }
+  prev?: { path: string; title: string; slug?: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dict?: any
+  locale?: string
 }
 
-export default function PostLayout({ content, next, prev, children }: LayoutProps) {
+export default function PostLayout({
+  content,
+  next,
+  prev,
+  children,
+  dict,
+  locale = 'en',
+}: LayoutProps) {
   const { path, slug, date, title } = content
 
   return (
@@ -28,9 +38,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             <div className="space-y-4 border-b border-gray-200 pt-10 pb-12 text-center dark:border-gray-700">
               <dl>
                 <div>
-                  <dt className="sr-only">Published on</dt>
+                  <dt className="sr-only">{dict?.blog?.published_on || 'Published on'}</dt>
                   <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    <time dateTime={date}>{formatDate(date, locale)}</time>
                   </dd>
                 </div>
               </dl>
@@ -53,9 +63,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 {prev && prev.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${prev.path}`}
+                      href={`/${locale}/blog/${prev.slug || prev.path.split('/').pop()}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Previous post: ${prev.title}`}
+                      aria-label={`${dict?.blog?.prev_post || 'Previous Article'}: ${prev.title}`}
                     >
                       &larr; {prev.title}
                     </Link>
@@ -64,9 +74,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 {next && next.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${next.path}`}
+                      href={`/${locale}/blog/${next.slug || next.path.split('/').pop()}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Next post: ${next.title}`}
+                      aria-label={`${dict?.blog?.next_post || 'Next Article'}: ${next.title}`}
                     >
                       {next.title} &rarr;
                     </Link>

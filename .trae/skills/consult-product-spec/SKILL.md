@@ -1,6 +1,6 @@
 ---
 name: "consult-product-spec"
-description: "查阅产品说明书 (docs/product-spec) 以理解项目背景、需求、架构和工作流。当用户询问项目详情或请求新功能时调用此 skill。"
+description: "查阅产品说明书 (docs/product-spec) 以理解项目背景、需求、架构和工作流。当AI或者用户 询问项目详情或请求新功能时调用此 skill。"
 ---
 
 # 查阅产品说明书 (Consult Product Specification)

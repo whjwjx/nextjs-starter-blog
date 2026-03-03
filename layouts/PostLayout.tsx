@@ -21,15 +21,26 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 }
 
-interface LayoutProps {
+export interface LayoutProps {
   content: CoreContent<Blog>
   authorDetails: CoreContent<Authors>[]
-  next?: { path: string; title: string }
-  prev?: { path: string; title: string }
+  next?: { path: string; title: string; slug?: string }
+  prev?: { path: string; title: string; slug?: string }
   children: ReactNode
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dict?: any
+  locale?: string
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
+export default function PostLayout({
+  content,
+  authorDetails,
+  next,
+  prev,
+  children,
+  dict,
+  locale = 'en',
+}: LayoutProps) {
   const { filePath, path, slug, date, title, tags } = content
   const basePath = path.split('/')[0]
 
@@ -42,10 +53,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <div className="space-y-4 text-center">
               <dl className="space-y-10">
                 <div>
-                  <dt className="sr-only">Published on</dt>
+                  <dt className="sr-only">{dict?.blog?.published_on || 'Published on'}</dt>
                   <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                      {new Date(date).toLocaleDateString(locale, postDateTemplate)}
                     </time>
                   </dd>
                 </div>
@@ -57,7 +68,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0 dark:divide-gray-700">
             <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-              <dt className="sr-only">Authors</dt>
+              <dt className="sr-only">{dict?.blog?.authors || 'Authors'}</dt>
               <dd>
                 <ul className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-y-8 xl:space-x-0">
                   {authorDetails.map((author) => (
@@ -97,10 +108,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl(path)} rel="nofollow">
-                  在 Twitter 上讨论
+                  {dict?.blog?.discuss_twitter || 'Discuss on Twitter'}
                 </Link>
-                {` • `}
-                <Link href={editUrl(filePath)}>在 GitHub 上查看</Link>
               </div>
               {siteMetadata.comments && (
                 <div
@@ -116,11 +125,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 {tags && (
                   <div className="py-4 xl:py-8">
                     <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                      标签
+                      {dict?.blog?.tags || 'Tags'}
                     </h2>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
+                        <Tag key={tag} text={tag} locale={locale} />
                       ))}
                     </div>
                   </div>
@@ -130,20 +139,24 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     {prev && prev.path && (
                       <div>
                         <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                          上一篇
+                          {dict?.blog?.prev_post || 'Previous Article'}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${prev.path}`}>{prev.title}</Link>
+                          <Link href={`/${locale}/blog/${prev.slug || prev.path.split('/').pop()}`}>
+                            {prev.title}
+                          </Link>
                         </div>
                       </div>
                     )}
                     {next && next.path && (
                       <div>
                         <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                          下一篇
+                          {dict?.blog?.next_post || 'Next Article'}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${next.path}`}>{next.title}</Link>
+                          <Link href={`/${locale}/blog/${next.slug || next.path.split('/').pop()}`}>
+                            {next.title}
+                          </Link>
                         </div>
                       </div>
                     )}
@@ -152,11 +165,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               </div>
               <div className="pt-4 xl:pt-8">
                 <Link
-                  href={`/${basePath}`}
+                  href={`/${locale}/blog`}
                   className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                  aria-label="返回博客"
+                  aria-label={dict?.blog?.all_posts || 'Back to the blog'}
                 >
-                  &larr; 返回博客
+                  &larr; {dict?.blog?.all_posts || 'Back to the blog'}
                 </Link>
               </div>
             </footer>

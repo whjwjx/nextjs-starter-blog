@@ -5,8 +5,9 @@ import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'bo
 import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import { Locale } from '@/dictionaries/i18n-config'
 
-const MobileNav = () => {
+const MobileNav = ({ dict, locale }: { dict: any; locale: Locale }) => {
   const [navShow, setNavShow] = useState(false)
   const [mounted, setMounted] = useState(false)
   const navRef = useRef(null)
@@ -75,16 +76,23 @@ const MobileNav = () => {
                   ref={navRef}
                   className="mt-8 flex h-full basis-0 flex-col items-start overflow-y-auto pt-2 pl-12 text-left"
                 >
-                  {headerNavLinks.map((link) => (
-                    <Link
-                      key={link.title}
-                      href={link.href}
-                      className="hover:text-primary-500 dark:hover:text-primary-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 dark:text-gray-100"
-                      onClick={onToggleNav}
-                    >
-                      {link.title}
-                    </Link>
-                  ))}
+                  {headerNavLinks.map((link) => {
+                    const href = link.href === '/' ? `/${locale}` : `/${locale}${link.href}`
+                    // Map the href to dictionary key
+                    const navKey = link.href.replace('/', '') || 'home'
+                    const title = dict.nav[navKey] || link.title
+
+                    return (
+                      <Link
+                        key={link.title}
+                        href={href}
+                        className="hover:text-primary-500 dark:hover:text-primary-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 dark:text-gray-100"
+                        onClick={onToggleNav}
+                      >
+                        {title}
+                      </Link>
+                    )
+                  })}
                 </nav>
 
                 <button

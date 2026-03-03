@@ -46,11 +46,30 @@ const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
+    resolve: (doc) => {
+      const parts = doc._raw.flattenedPath.split('/')
+      // If the path is like 'blog/en/post', the slug should be 'post'
+      // If it's 'blog/post', the slug is 'post'
+      if (parts.length > 2 && ['en', 'zh-CN'].includes(parts[1])) {
+        return parts.slice(2).join('/')
+      }
+      return parts.slice(1).join('/')
+    },
   },
   path: {
     type: 'string',
     resolve: (doc) => doc._raw.flattenedPath,
+  },
+  language: {
+    type: 'string',
+    resolve: (doc) => {
+      const parts = doc._raw.flattenedPath.split('/')
+      // Check if the second part is a valid locale
+      if (parts.length > 2 && ['en', 'zh-CN'].includes(parts[1])) {
+        return parts[1]
+      }
+      return doc.language || 'en'
+    },
   },
   filePath: {
     type: 'string',
@@ -68,10 +87,11 @@ async function createTagCount(allBlogs) {
     if (file.tags && (!isProduction || file.draft !== true)) {
       file.tags.forEach((tag) => {
         const formattedTag = slug(tag)
-        if (formattedTag in tagCount) {
-          tagCount[formattedTag] += 1
+        const tagKey = `${file.language || 'en'}-${formattedTag}`
+        if (tagKey in tagCount) {
+          tagCount[tagKey] += 1
         } else {
-          tagCount[formattedTag] = 1
+          tagCount[tagKey] = 1
         }
       })
     }
@@ -109,6 +129,7 @@ export const Blog = defineDocumentType(() => ({
     layout: { type: 'string' },
     bibliography: { type: 'string' },
     canonicalUrl: { type: 'string' },
+    language: { type: 'string', default: 'en' },
   },
   computedFields: {
     ...computedFields,
@@ -145,6 +166,7 @@ export const Authors = defineDocumentType(() => ({
     wechat: { type: 'string' },
     xiaohongshu: { type: 'string' },
     layout: { type: 'string' },
+    language: { type: 'string', default: 'en' },
   },
   computedFields,
 }))

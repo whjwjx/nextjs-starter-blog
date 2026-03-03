@@ -1,34 +1,41 @@
+'use client'
+
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
+import { useParams } from 'next/navigation'
+import { Locale } from '@/dictionaries/i18n-config'
+import { getDictionary } from '@/dictionaries/get-dictionary'
 
 const MAX_DISPLAY = 5
 
-export default function Home({ posts }) {
+export default function Home({ posts, dict, locale }) {
+  if (!dict) return null
+
   return (
     <>
       <div className="border-b border-gray-200 py-12 dark:border-gray-700">
         <div className="space-y-4 md:space-y-6">
-          <h1 className="from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-200 bg-linear-to-r bg-clip-text text-4xl font-extrabold leading-tight tracking-tight text-transparent sm:text-5xl md:text-7xl">
-            {siteMetadata.title}
+          <h1 className="from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-200 bg-linear-to-r bg-clip-text text-4xl leading-tight font-extrabold tracking-tight text-transparent sm:text-5xl md:text-7xl">
+            {dict.site.title}
           </h1>
-          <p className="max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400 sm:text-xl">
-            {siteMetadata.description}
+          <p className="max-w-2xl text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400">
+            {dict.site.description}
           </p>
           <div className="flex space-x-4 pt-4">
             <Link
-              href="/blog"
+              href={`/${locale}/blog`}
               className="bg-primary-500 hover:bg-primary-600 rounded-lg px-6 py-3 text-white transition-colors"
             >
-              浏览文章
+              {dict.nav.blog}
             </Link>
             <Link
-              href="/about"
-              className="border-gray-200 hover:border-primary-500 dark:border-gray-700 dark:hover:border-primary-400 rounded-lg border px-6 py-3 transition-colors"
+              href={`/${locale}/about`}
+              className="hover:border-primary-500 dark:hover:border-primary-400 rounded-lg border border-gray-200 px-6 py-3 transition-colors dark:border-gray-700"
             >
-              了解更多
+              {dict.nav.about}
             </Link>
           </div>
         </div>
@@ -36,11 +43,11 @@ export default function Home({ posts }) {
       <div className="space-y-4">
         <div className="pt-12 pb-8 md:space-y-5">
           <h2 className="text-2xl leading-9 font-bold tracking-tight text-gray-900 sm:text-3xl sm:leading-10 md:text-4xl dark:text-gray-100">
-            最新发布
+            {dict.blog.all_posts}
           </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-1 md:gap-6">
-          {!posts.length && '未发现任何文章。'}
+          {!posts.length && dict.blog.no_posts}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags } = post
             return (
@@ -52,18 +59,21 @@ export default function Home({ posts }) {
                   <dl>
                     <dt className="sr-only">Published on</dt>
                     <dd className="text-sm leading-6 font-medium text-gray-500 dark:text-gray-400">
-                      <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                      <time dateTime={date}>{formatDate(date, locale)}</time>
                     </dd>
                   </dl>
                   <div className="space-y-3">
                     <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                      <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
+                      <Link
+                        href={`/${locale}/blog/${slug}`}
+                        className="text-gray-900 dark:text-gray-100"
+                      >
                         {title}
                       </Link>
                     </h2>
                     <div className="flex flex-wrap gap-2">
                       {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
+                        <Tag key={tag} text={tag} locale={locale} />
                       ))}
                     </div>
                     <div className="prose max-w-none text-gray-600 dark:text-gray-400">
@@ -79,11 +89,11 @@ export default function Home({ posts }) {
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base leading-6 font-medium">
           <Link
-            href="/blog"
+            href={`/${locale}/blog`}
             className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="所有文章"
+            aria-label={dict.blog.all_posts}
           >
-            所有文章 &rarr;
+            {dict.blog.all_posts} &rarr;
           </Link>
         </div>
       )}

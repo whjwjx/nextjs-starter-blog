@@ -47,11 +47,29 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
 
   if (publishPosts.length > 0) {
     for (const tag of Object.keys(tagData)) {
-      const filteredPosts = allBlogs.filter((post) => post.tags.map((t) => slug(t)).includes(tag))
-      const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
-      const rssPath = path.join(outputFolder, 'tags', tag)
-      mkdirSync(rssPath, { recursive: true })
-      writeFileSync(path.join(rssPath, page), rss)
+      let locale = 'en'
+      let tagSlug = tag
+      if (tag.startsWith('zh-CN-')) {
+        locale = 'zh-CN'
+        tagSlug = tag.replace('zh-CN-', '')
+      } else if (tag.startsWith('en-')) {
+        locale = 'en'
+        tagSlug = tag.replace('en-', '')
+      }
+
+      const filteredPosts = allBlogs.filter(
+        (post) =>
+          (post.language === locale || (!post.language && locale === 'en')) &&
+          post.tags &&
+          post.tags.map((t) => slug(t)).includes(tagSlug)
+      )
+
+      if (filteredPosts.length > 0) {
+        const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
+        const rssPath = path.join(outputFolder, 'tags', tag)
+        mkdirSync(rssPath, { recursive: true })
+        writeFileSync(path.join(rssPath, page), rss)
+      }
     }
   }
 }

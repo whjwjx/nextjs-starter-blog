@@ -2079,6 +2079,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@formatjs/fast-memoize@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@formatjs/fast-memoize@npm:3.1.0"
+  dependencies:
+    tslib: ^2.8.1
+  checksum: 700dfd0a10d20d8cb7427406127f78612a696e4942d38a8f153d82ca213f26bd0616d01a29957f194688887551595455eb0f629c2ce36d964a66ba15815afde9
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-localematcher@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "@formatjs/intl-localematcher@npm:0.8.1"
+  dependencies:
+    "@formatjs/fast-memoize": 3.1.0
+    tslib: ^2.8.1
+  checksum: 86077272fffb814fe0548b2dcf6af93c58d3087e708f7dffc269c2783108f44a8bcc53da590325cfbc0de5d1ddda637bb1a93fa846d222838bc4658e2eb8d048
+  languageName: node
+  linkType: hard
+
 "@giscus/react@npm:^3.0.0":
   version: 3.1.0
   resolution: "@giscus/react@npm:3.1.0"
@@ -3893,6 +3912,13 @@ __metadata:
   version: 2.1.0
   resolution: "@types/ms@npm:2.1.0"
   checksum: 532d2ebb91937ccc4a89389715e5b47d4c66e708d15942fe6cc25add6dc37b2be058230a327dd50f43f89b8b6d5d52b74685a9e8f70516edfc9bdd6be910eff4
+  languageName: node
+  linkType: hard
+
+"@types/negotiator@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "@types/negotiator@npm:0.6.4"
+  checksum: 7d1f4e5c9d0a0cbccd4b74f04baf7887299c629a192f5d16669b3d1a24d914ee16cdfa2088761ef8bb617438aff2f61fff5c40a5c55d55f6b59dafec00b2aa45
   languageName: node
   linkType: hard
 
@@ -11580,6 +11606,7 @@ __metadata:
   dependencies:
     "@eslint/eslintrc": ^3.3.3
     "@eslint/js": ^9.18.0
+    "@formatjs/intl-localematcher": ^0.8.1
     "@headlessui/react": 2.2.9
     "@next/bundle-analyzer": 15.5.12
     "@svgr/webpack": ^8.1.0
@@ -11587,6 +11614,7 @@ __metadata:
     "@tailwindcss/postcss": ^4.1.18
     "@tailwindcss/typography": ^0.5.19
     "@types/mdx": ^2.0.13
+    "@types/negotiator": ^0.6.4
     "@types/react": ^19.2.13
     "@typescript-eslint/eslint-plugin": ^8.54.0
     "@typescript-eslint/parser": ^8.54.0
@@ -11605,6 +11633,7 @@ __metadata:
     husky: ^9.1.7
     image-size: 2.0.2
     lint-staged: ^16.2.7
+    negotiator: ^1.0.0
     next: 15.5.12
     next-contentlayer2: 0.5.8
     next-themes: ^0.4.6
@@ -11776,7 +11805,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.8.0":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a

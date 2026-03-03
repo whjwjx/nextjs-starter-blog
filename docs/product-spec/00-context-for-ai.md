@@ -12,11 +12,12 @@
 
 ## 2. 核心技术栈
 - **框架**: Next.js 15.5 (App Router)
+- **i18n**: 动态路由 `[locale]` + 翻译字典 (dictionaries)
 - **语言**: TypeScript 5.x
 - **样式**: Tailwind CSS 4.x
 - **内容处理**: Contentlayer2 (MDX 处理)
 - **状态管理**: React Context / Hooks (极简全局状态)
-- **包管理器**: Yarn 3.6.1
+- **包管理器**: Yarn 3.6.1 (使用方式: `node .yarn/releases/yarn-3.6.1.cjs`)
 
 ## 3. 关键配置文件
 | 文件路径 | 用途 |
