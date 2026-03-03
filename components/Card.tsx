@@ -6,7 +6,7 @@ const Card = ({ title, description, imgSrc, href }) => (
     <div
       className={`${
         imgSrc && 'h-full'
-      } overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700/60`}
+      } group overflow-hidden rounded-2xl transition-all hover:bg-gray-100/50 dark:hover:bg-gray-800/50`}
     >
       {imgSrc &&
         (href ? (
@@ -42,7 +42,7 @@ const Card = ({ title, description, imgSrc, href }) => (
         {href && (
           <Link
             href={href}
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 text-base leading-6 font-medium"
+            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 group-hover:translate-x-1 inline-flex items-center text-base font-medium leading-6 transition-transform"
             aria-label={`Link to ${title}`}
           >
             Learn more &rarr;
