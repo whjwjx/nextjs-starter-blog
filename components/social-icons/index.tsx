@@ -11,6 +11,8 @@ import {
   Instagram,
   Medium,
   Bluesky,
+  Wechat,
+  Xiaohongshu,
 } from './icons'
 
 const components = {
@@ -26,6 +28,8 @@ const components = {
   instagram: Instagram,
   medium: Medium,
   bluesky: Bluesky,
+  wechat: Wechat,
+  xiaohongshu: Xiaohongshu,
 }
 
 type SocialIconProps = {
