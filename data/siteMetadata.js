@@ -2,7 +2,7 @@
 const siteMetadata = {
   title: 'Hua Jiang Blog',
   author: 'Hua Jiang',
-  headerTitle: 'blog.huajiang.wang',
+  headerTitle: 'huajiang.wang',
   description: 'AI 全栈开发者的技术博客',
   language: 'zh-CN',
   theme: 'system', // system, dark or light
