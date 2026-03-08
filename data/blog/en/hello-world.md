@@ -33,7 +33,7 @@ The entire process was completed using the **Trae IDE**. Pair-programming with A
 I will be sharing my findings in these areas:
 
 *   **AI Full-stack Apps**: Deploying AI solutions quickly using Dify, LangChain, etc.
-*   **MCP Ecosystem**: Exploring the possibilities of the Model Context Protocol.
+*   **AI Deep Exploration**: Currently researching **Model Theory & Training**, **MCP Ecosystem**, **Custom Skills Development**, and **OpenClaw Collaboration** to explore the next generation of AI-assisted development.
 *   **Engineering Mindset**: Frontend optimization, backend architecture, and automated workflows.
 
 ---
