@@ -65,7 +65,7 @@ export default function PostLayout({
                 {prev && prev.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${locale}/blog/${prev.slug || prev.path.split('/').pop()}`}
+                      href={`/${prev.path}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                       aria-label={`${dict?.blog?.prev_post || 'Previous Article'}: ${prev.title}`}
                     >
@@ -76,7 +76,7 @@ export default function PostLayout({
                 {next && next.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${locale}/blog/${next.slug || next.path.split('/').pop()}`}
+                      href={`/${next.path}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                       aria-label={`${dict?.blog?.next_post || 'Next Article'}: ${next.title}`}
                     >

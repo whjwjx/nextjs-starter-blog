@@ -58,7 +58,14 @@ const computedFields: ComputedFields = {
   },
   path: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath,
+    resolve: (doc) => {
+      const parts = doc._raw.flattenedPath.split('/')
+      // If the path is like 'blog/zh-CN/post', the URL path should be 'blog/post'
+      if (parts.length > 2 && ['en', 'zh-CN'].includes(parts[1])) {
+        return [parts[0], ...parts.slice(2)].join('/')
+      }
+      return doc._raw.flattenedPath
+    },
   },
   language: {
     type: 'string',

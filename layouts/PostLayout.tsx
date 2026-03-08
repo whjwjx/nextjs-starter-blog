@@ -144,9 +144,7 @@ export default function PostLayout({
                           {dict?.blog?.prev_post || 'Previous Article'}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${locale}/blog/${prev.slug || prev.path.split('/').pop()}`}>
-                            {prev.title}
-                          </Link>
+                          <Link href={`/${prev.path}`}>{prev.title}</Link>
                         </div>
                       </div>
                     )}
@@ -156,9 +154,7 @@ export default function PostLayout({
                           {dict?.blog?.next_post || 'Next Article'}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${locale}/blog/${next.slug || next.path.split('/').pop()}`}>
-                            {next.title}
-                          </Link>
+                          <Link href={`/${next.path}`}>{next.title}</Link>
                         </div>
                       </div>
                     )}

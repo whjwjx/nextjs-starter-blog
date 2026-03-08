@@ -172,7 +172,7 @@ export default function ListLayoutWithTags({
                         <div>
                           <h2 className="text-2xl leading-8 font-bold tracking-tight">
                             <Link
-                              href={`/${locale}/${path}`}
+                              href={`/${path}`}
                               className="text-gray-900 dark:text-gray-100"
                             >
                               {title}
