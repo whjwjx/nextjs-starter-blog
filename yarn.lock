@@ -2396,7 +2396,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^3.3.1, @eslint/eslintrc@npm:^3.3.3":
+"@eslint/eslintrc@npm:^3.3.1":
   version: 3.3.3
   resolution: "@eslint/eslintrc@npm:3.3.3"
   dependencies:
@@ -15501,7 +15501,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tailwind-nextjs-starter-blog@workspace:."
   dependencies:
-    "@eslint/eslintrc": ^3.3.3
     "@eslint/js": ^9.18.0
     "@formatjs/intl-localematcher": ^0.8.1
     "@headlessui/react": 2.2.9
