@@ -12,6 +12,7 @@ import { Spotlight } from '@/components/ui/Spotlight'
 import { GridBackground } from '@/components/ui/GridBackground'
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card'
 import { OrbitingCircles } from '@/components/magicui/orbiting-circles'
+import { TypingAnimation } from '@/components/magicui/typing-animation'
 import Image from '@/components/Image'
 import {
   Trae,
@@ -68,11 +69,18 @@ export default function Home({ posts, dict, locale }) {
                 </h1>
               </CardItem>
               <CardItem
-                as="p"
+                as="div"
                 translateZ="60"
                 className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
               >
-                {dict.site.description}
+                <TypingAnimation
+                  duration={50}
+                  className="text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
+                  loop={false}
+                  cursorStyle="underscore"
+                >
+                  {dict.site.description}
+                </TypingAnimation>
               </CardItem>
               <CardItem translateZ="100" className="mt-4 flex w-full justify-center space-x-4 pt-4">
                 <Link

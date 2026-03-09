@@ -6,6 +6,7 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import LanguageSwitch from './LanguageSwitch'
+import { TypingAnimation } from './magicui/typing-animation'
 import { Locale, Dictionary } from '@/dictionaries/i18n-config'
 
 const Header = ({ dict, locale }: { dict: Dictionary; locale: Locale }) => {
@@ -28,9 +29,15 @@ const Header = ({ dict, locale }: { dict: Dictionary; locale: Locale }) => {
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-bold tracking-tight sm:block transition-colors group-hover:text-primary-500 dark:group-hover:text-primary-400">
+            <TypingAnimation
+              as="div"
+              cursorStyle="underscore"
+              className="hidden h-6 text-2xl font-bold tracking-tight sm:block transition-colors group-hover:text-primary-500 dark:group-hover:text-primary-400"
+              loop={false}
+              duration={150}
+            >
               {siteMetadata.headerTitle}
-            </div>
+            </TypingAnimation>
           ) : (
             siteMetadata.headerTitle
           )}
