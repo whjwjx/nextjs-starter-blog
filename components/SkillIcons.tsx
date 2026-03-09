@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from './Image'
 
 interface SkillIconsProps {
   icons: string[]
@@ -26,14 +27,23 @@ export const SkillIcons: React.FC<SkillIconsProps> = ({
   const url = `https://skillicons.dev/icons?i=${iconsStr}&theme=${theme}&perline=${perline}`
 
   return (
-    <div className={`my-6 flex justify-center py-4 px-4 rounded-xl bg-gray-50/30 dark:bg-gray-800/20 border border-gray-100/50 dark:border-gray-700/30 ${className}`}>
+    <div
+      className={`my-6 flex justify-center rounded-xl border border-gray-100/50 bg-gray-50/30 px-4 py-4 dark:border-gray-700/30 dark:bg-gray-800/20 ${className}`}
+    >
       <a
         href="https://skillicons.dev"
         target="_blank"
         rel="noopener noreferrer"
         className="transition-all duration-300 hover:scale-[1.01] active:scale-[0.99]"
       >
-        <img src={url} alt="My Skills" className="max-w-full drop-shadow-sm" />
+        <Image
+          src={url}
+          alt="My Skills"
+          width={800}
+          height={200}
+          unoptimized
+          className="max-w-full drop-shadow-sm"
+        />
       </a>
     </div>
   )
