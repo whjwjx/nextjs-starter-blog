@@ -6,7 +6,6 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import { SkillIcons } from './SkillIcons'
-import { TypingAnimation } from './magicui/typing-animation'
 
 export const components: MDXComponents = {
   Image,
@@ -16,5 +15,4 @@ export const components: MDXComponents = {
   table: TableWrapper,
   BlogNewsletterForm,
   SkillIcons,
-  TypingAnimation,
 }
