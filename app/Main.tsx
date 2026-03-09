@@ -37,19 +37,26 @@ export default function Home({ posts, dict, locale }) {
       <div className="relative min-h-[700px] overflow-hidden border-b border-gray-200 pt-8 pb-24 dark:border-gray-700">
         <GridBackground className="min-h-[700px]">
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <OrbitingCircles iconSize={40} radius={220} speed={0.8} randomSpeed>
-              <Trae.Color size={40} />
-              <Dify.Color size={40} />
-              <ClaudeCode.Color size={40} />
-              <OpenClaw.Color size={40} />
+            <OrbitingCircles iconSize={35} maxIconSize={70} radius={220} speed={0.4} randomSpeed>
+              <Trae.Color />
+              <Dify.Color />
+              <ClaudeCode.Color />
+              <OpenClaw.Color />
             </OrbitingCircles>
-            <OrbitingCircles iconSize={30} radius={340} reverse speed={1.5} randomSpeed>
-              <Ollama size={30} />
-              <Gemini.Color size={30} />
-              <DeepSeek.Color size={30} />
-              <ModelScope.Color size={30} />
-              <OpenAI size={30} />
-              <MCP size={30} />
+            <OrbitingCircles
+              iconSize={35}
+              maxIconSize={70}
+              radius={340}
+              reverse
+              speed={0.8}
+              randomSpeed
+            >
+              <Ollama />
+              <Gemini.Color />
+              <DeepSeek.Color />
+              <ModelScope.Color />
+              <OpenAI />
+              <MCP />
             </OrbitingCircles>
           </div>
           <CardContainer className="inter-var" containerClassName="py-4">
