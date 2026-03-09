@@ -1,15 +1,10 @@
 ---
 title: 'Why Can’t People Find My Website? A Plain SEO Guide and a Simple Fix List'
 date: '2026-03-09'
-tags:
-  - SEO
-  - Web
-  - Next.js
-  - Blog
+tags: ['SEO', 'Web', 'Next.js', 'Blog']
 draft: false
 summary: '"Not found" is often not about bad content. Search engines may not have visited, may be blocked, or may not understand your page yet. This post explains SEO in simple words and gives a 10-minute checklist.'
-authors:
-  - default
+authors: ['default']
 ---
 
 Many people publish a personal website for the first time and hit the same question fast: I wrote posts, so why can’t I find them in search?
@@ -193,4 +188,3 @@ Writing may not bring traffic fast, but it builds structure. Once the structure 
 - Check `noindex` and `canonical`
 - Make sure your post is linked from home/list/tags (no island pages)
 - Give a new site time, and keep writing clear-topic posts as samples
-
