@@ -72,7 +72,7 @@ export default function Home({ posts, dict, locale }) {
               <CardItem
                 as="p"
                 translateZ="60"
-                className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
+                className="mx-auto mt-4 max-w-xl text-balance text-center text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
               >
                 {dict.site.description}
               </CardItem>
