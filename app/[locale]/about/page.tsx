@@ -5,6 +5,7 @@ import { coreContent } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/seo'
 import { Locale } from '@/dictionaries/i18n-config'
 import { getDictionary } from '@/dictionaries/get-dictionary'
+import { components } from '@/components/MDXComponents'
 
 export async function generateMetadata(props: { params: Promise<{ locale: Locale }> }) {
   const params = await props.params
@@ -28,7 +29,7 @@ export default async function Page(props: { params: Promise<{ locale: Locale }> 
   return (
     <>
       <AuthorLayout content={mainContent} title={dict.about.title}>
-        <MDXLayoutRenderer code={author.body.code} />
+        <MDXLayoutRenderer code={author.body.code} components={components} />
       </AuthorLayout>
     </>
   )

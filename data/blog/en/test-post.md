@@ -1,32 +1,43 @@
 ---
-title: 'My First Test Post'
+title: 'First Encounter: A Gentle Meeting with Code in This Little Corner'
 date: '2026-03-03'
 tags: ['Next.js', 'Tailwind', 'AI']
-draft: true
-summary: 'This is a test post to showcase the blog setup, layout, code highlighting, and image rendering features.'
+draft: false
+summary: "This is a small article with a bit of 'testing'. I want to see if words and code can get along happily in this newly built little world."
 authors: ['default']
 ---
 
-Welcome to my blog! This is a test post to demonstrate some of the core features of the Next.js Starter Blog.
+## Welcome to My Little Nest
 
-### Code Highlighting
+This is the first line of words dropped in this blog. Just like moving into a new home, I always want to touch every corner first, to see if the lights are on and if the scenery outside the window is good.
 
-Here is a simple Python code example:
+Here, I want to try to rub a bit of life's warmth into those cold technologies.
+
+### When Python Meets a Greeting
+
+When I write code, I always feel they have a spirit. For example, these lines of Python are as simple as sending a postcard to a friend far away in the morning:
 
 ```python
 def hello_world():
-    print("Hello, Hua Jiang Blog!")
+    # This sentence is a whisper I want to say to this world
+    print("Hello, Huajiang's Little World!")
 
 if __name__ == "__main__":
     hello_world()
 ```
 
-### Key Features
+### The Whispers Here
 
-- **Tech Stack**: Next.js, Tailwind CSS, Contentlayer
-- **Capabilities**: Responsive design, dark mode, SEO-friendly
-- **Goal**: Share AI full-stack development experiences
+I've put some of my favorite "building blocks" here, planning to slowly piece together the future:
 
-> "AI will not replace humans, but humans who use AI will replace those who don't."
+- **The Little Background of Technology**: Selected Next.js and Tailwind CSS, wanting this place to run both quickly and beautifully.
+- **Thoughts About AI**: I'll often talk about how AI has become my inseparable "partner" here.
+- **A Little Bit of Expectation**: I hope everyone who passes by here can feel the relaxation behind the technology.
 
-If you can see this post, it means the blog configuration is active and the environment initialization was successful!
+### Those Moving Moments
+
+> "Technology is like a long journey; what's important is not the destination, but whether you have been moved by a wild flower by the roadside while rushing along."
+
+### Words Not Yet Finished
+
+If you can read this far, it means the door to this little nest has quietly opened. The environment is all set up, and the rest is for me to slowly tell you the stories.
