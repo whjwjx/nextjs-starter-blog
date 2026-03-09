@@ -12,6 +12,7 @@ import { Spotlight } from '@/components/ui/Spotlight'
 import { GridBackground } from '@/components/ui/GridBackground'
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card'
 import { OrbitingCircles } from '@/components/magicui/orbiting-circles'
+import { TypingAnimation } from '@/components/magicui/typing-animation'
 import Image from '@/components/Image'
 import {
   Trae,
@@ -64,7 +65,8 @@ export default function Home({ posts, dict, locale }) {
               </CardItem>
               <CardItem translateZ="50" className="w-full text-center">
                 <h1 className="bg-gradient-to-b from-gray-900 to-gray-600 bg-clip-text text-3xl font-extrabold tracking-tighter text-transparent sm:text-5xl md:text-6xl dark:from-gray-100 dark:to-gray-400">
-                  {dict.site.title}
+                  {dict.site.title.split(locale === 'zh-CN' ? '王华江' : 'Hua Jiang')[0]}
+                  <TypingAnimation words={dict.site.typingWords} />
                 </h1>
               </CardItem>
               <CardItem

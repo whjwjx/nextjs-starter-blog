@@ -1,7 +1,8 @@
 {
   "site": {
     "title": "Hi, I am Hua Jiang",
-    "description": "A patient translator in the fireworks of code. Dedicated to making the gentleness of technology readable for everyone."
+    "description": "A patient translator in the fireworks of code. Dedicated to making the gentleness of technology readable for everyone.",
+    "typingWords": ["Hua Jiang", "Translator", "Programmer", "Wanderer"]
   },
   "nav": {
     "home": "Home",

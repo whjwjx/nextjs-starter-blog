@@ -18,18 +18,18 @@ const Header = ({ dict, locale }: { dict: Dictionary; locale: Locale }) => {
   return (
     <header className={headerClass}>
       <Link href={`/${locale}`} aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-between group">
+        <div className="group flex items-center justify-between">
           <div className="mr-3 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
             <Image
               src="/static/images/avatar.png"
               alt="logo"
               width={42}
               height={42}
-              className="rounded-full border-2 border-primary-500/20 p-0.5 dark:border-primary-400/20"
+              className="border-primary-500/20 dark:border-primary-400/20 rounded-full border-2 p-0.5"
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <TypingAnimation className="hidden h-6 text-2xl font-bold tracking-tight sm:block transition-colors group-hover:text-primary-500 dark:group-hover:text-primary-400">
+            <TypingAnimation className="group-hover:text-primary-500 dark:group-hover:text-primary-400 hidden h-6 text-2xl font-bold tracking-tight transition-colors sm:block">
               {siteMetadata.headerTitle}
             </TypingAnimation>
           ) : (

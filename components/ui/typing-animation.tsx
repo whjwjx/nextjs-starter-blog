@@ -45,12 +45,7 @@ export default function TypingAnimation({
   }, [children, duration, delay])
 
   return (
-    <Component
-      className={cn(
-        'font-display font-bold tracking-tight',
-        className
-      )}
-    >
+    <Component className={cn('font-display font-bold tracking-tight', className)}>
       {displayedText}
       <span className="ml-0.5 inline-block animate-pulse font-normal">{cursor}</span>
     </Component>

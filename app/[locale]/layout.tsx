@@ -86,11 +86,7 @@ export default async function LocaleLayout(props: {
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <link
-        rel="apple-touch-icon"
-        sizes="76x76"
-        href={`${basePath}/static/images/avatar.png`}
-      />
+      <link rel="apple-touch-icon" sizes="76x76" href={`${basePath}/static/images/avatar.png`} />
       <link
         rel="icon"
         type="image/png"
