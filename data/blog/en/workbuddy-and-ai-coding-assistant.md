@@ -7,13 +7,11 @@ summary: 'WorkBuddy aims to turn AI into a "permanent colleague" in the developm
 authors: ['default']
 ---
 
-Not long ago, I finished an article about my experience with OpenClaw. In that piece, while pondering how a phone could become a "remote robotic arm," I was thinking to myself: if such "structured" and long-term maintenance capabilities were handed over to tools like Trae, it would probably feel more reassuring.
+Not long ago, I had just finished gathering my thoughts on OpenClaw. In those reflections, while I marveled at the notion of a phone as a "remote robotic arm," a certain hesitation lingered: perhaps it would be more grounding to entrust such rigorous, long-term "structured" tasks to a tool as steady as Trae.
 
-Before the echoes died down, WorkBuddy appeared on the horizon—also waving the banner of "deep AI integration," but choosing an almost opposite path: instead of extending control into the physical world, it attempts to settle AI itself into the editor we open countless times every day.
+Yet, news of WorkBuddy's public beta arrived sooner than anticipated, its swift emergence catching me somewhat off guard.
 
-My introduction to it was simple: a friend mentioned in passing, "This is a deep AI-integrated IDE from Tencent, give it a try," and coupled with the phrase "covering the entire process from design and coding to deployment" on the intro page, my curiosity was ignited.
-
-This article is a record of my time with WorkBuddy following OpenClaw.
+Thus, these words took shape—a record of an unexpected encounter with WorkBuddy in the wake of OpenClaw.
 
 ## I. Beyond the Ideal: Several Inevitable Real-World Problems
 
