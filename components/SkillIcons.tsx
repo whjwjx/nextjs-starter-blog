@@ -28,7 +28,7 @@ export const SkillIcons: React.FC<SkillIconsProps> = ({
 
   return (
     <div
-      className={`my-6 flex justify-center rounded-xl border border-gray-100/50 bg-gray-50/30 px-4 py-4 dark:border-gray-700/30 dark:bg-gray-800/20 ${className}`}
+      className={`my-2 flex justify-center rounded-lg border border-gray-100/50 bg-gray-50/30 px-2 py-2 dark:border-gray-700/30 dark:bg-gray-800/20 ${className}`}
     >
       <a
         href="https://skillicons.dev"
