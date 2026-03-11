@@ -63,6 +63,10 @@ export function ClaudeCodeTerminal() {
   const bubbleTimerRef = useRef<number | null>(null)
   const bubbleLoopRef = useRef<number | null>(null)
   const welcomeShownRef = useRef(false)
+  const lastBubbleAtRef = useRef(0)
+  const idleTimerRef = useRef<number | null>(null)
+  const isIdleRef = useRef(true)
+  const isVisibleRef = useRef(true)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const inputDraftRef = useRef('')
   const [history, setHistory] = useState<string[]>([])
@@ -146,6 +150,7 @@ export function ClaudeCodeTerminal() {
   useEffect(() => {
     const showBubble = (text: string) => {
       setBubbleText(text)
+      lastBubbleAtRef.current = Date.now()
       if (bubbleTimerRef.current) {
         window.clearTimeout(bubbleTimerRef.current)
       }
@@ -154,6 +159,39 @@ export function ClaudeCodeTerminal() {
       }, 3600)
     }
 
+    const setIdleAfterDelay = () => {
+      if (idleTimerRef.current) {
+        window.clearTimeout(idleTimerRef.current)
+      }
+      idleTimerRef.current = window.setTimeout(() => {
+        isIdleRef.current = true
+      }, 5000)
+    }
+
+    const handleMouseMove = () => {
+      isIdleRef.current = false
+      setIdleAfterDelay()
+    }
+
+    const handleVisibilityChange = () => {
+      isVisibleRef.current = document.visibilityState === 'visible'
+    }
+
+    const handleBlur = () => {
+      isVisibleRef.current = false
+    }
+
+    const handleFocus = () => {
+      isVisibleRef.current = true
+    }
+
+    isVisibleRef.current = document.visibilityState === 'visible'
+    setIdleAfterDelay()
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('blur', handleBlur)
+    window.addEventListener('focus', handleFocus)
+
     if (!welcomeShownRef.current) {
       showBubble('欢迎来到本站，点我打开终端')
       welcomeShownRef.current = true
@@ -161,10 +199,18 @@ export function ClaudeCodeTerminal() {
 
     const messages = ['需要帮忙吗？', '输入 help 查看指令', '点我打开终端']
 
+    const canShowBubble = () => {
+      const now = Date.now()
+      const isActive = isVisibleRef.current && !isIdleRef.current
+      const minInterval = isActive ? 12000 : 5000
+      if (now - lastBubbleAtRef.current < minInterval) return false
+      return true
+    }
+
     const scheduleNext = () => {
-      const delay = 22000 + Math.random() * 20000
+      const delay = 5000 + Math.random() * 15000
       bubbleLoopRef.current = window.setTimeout(() => {
-        if (!isOpen) {
+        if (!isOpen && canShowBubble()) {
           const next = messages[Math.floor(Math.random() * messages.length)]
           showBubble(next)
         }
@@ -178,6 +224,13 @@ export function ClaudeCodeTerminal() {
       if (bubbleLoopRef.current) {
         window.clearTimeout(bubbleLoopRef.current)
       }
+      if (idleTimerRef.current) {
+        window.clearTimeout(idleTimerRef.current)
+      }
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('blur', handleBlur)
+      window.removeEventListener('focus', handleFocus)
     }
   }, [isOpen])
 
@@ -437,7 +490,6 @@ export function ClaudeCodeTerminal() {
           {bubbleText && (
             <div className="pointer-events-none absolute top-1/2 right-full mr-3 max-w-[320px] -translate-y-1/2 rounded-lg border border-white/10 bg-gray-900/95 px-4 py-3 text-sm text-gray-100 shadow-xl backdrop-blur">
               <span className="block leading-relaxed whitespace-nowrap">{bubbleText}</span>
-              {/* <span className="absolute top-1/2 left-full h-2 w-2 -translate-y-1/2 rotate-45 border-t border-r border-white/10 bg-gray-900/95" /> */}
             </div>
           )}
           <button
