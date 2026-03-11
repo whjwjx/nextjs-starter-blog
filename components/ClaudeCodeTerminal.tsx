@@ -17,6 +17,7 @@ import {
   STATUS_QUESTIONS,
   type ScheduleItem,
 } from '@/data/claude-reference/schedule'
+import siteMetadata from '@/data/siteMetadata'
 
 const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
@@ -39,6 +40,12 @@ const formatTime = (minutes: number) => {
 
 const getStatusByMinutes = (minutes: number, schedule: ScheduleItem[]) =>
   schedule.find((item) => minutes >= item.start && minutes < item.end) ?? schedule[0]
+
+const getNextStatusByMinutes = (minutes: number, schedule: ScheduleItem[]) => {
+  const currentIndex = schedule.findIndex((item) => minutes >= item.start && minutes < item.end)
+  if (currentIndex === -1) return schedule[0]
+  return schedule[(currentIndex + 1) % schedule.length]
+}
 
 const formatSchedule = (schedule: ScheduleItem[]) =>
   schedule
@@ -105,6 +112,7 @@ export function ClaudeCodeTerminal() {
         '╰──────────────────────────────────────────────────────────────╯',
     },
   ])
+  const schedule = DAILY_SCHEDULE
 
   useEffect(() => {
     const interval = window.setInterval(() => setClock(new Date()), 1000)
@@ -207,15 +215,34 @@ export function ClaudeCodeTerminal() {
     window.addEventListener('focus', handleFocus)
 
     if (!welcomeShownRef.current) {
-      showBubble(
-        isEnglish ? 'Welcome to the site, tap to open the terminal' : '欢迎来到本站，点我打开终端'
-      )
+      showBubble(isEnglish ? 'Hi, tap me to chat' : '嗨，欢迎来访，点我聊聊')
       welcomeShownRef.current = true
     }
 
+    const buildStatusBubble = () => {
+      const minutes = toMinutes(new Date())
+      const current = getStatusByMinutes(minutes, schedule)
+      const next = getNextStatusByMinutes(minutes, schedule)
+      return isEnglish
+        ? `Owner now: ${current.title}, next: ${next.title}`
+        : `站长现在：${current.title}，接下来：${next.title}`
+    }
+
     const messages = isEnglish
-      ? ['Need help?', 'Type help for commands', 'Tap to open the terminal']
-      : ['需要帮忙吗？', '输入 help 查看指令', '点我打开终端']
+      ? [
+          () => 'Need help? I am here.',
+          buildStatusBubble,
+          () => `Email the owner: ${siteMetadata.email}`,
+          () => 'Ask me any question, I will try to help.',
+          () => 'Tap to open the terminal',
+        ]
+      : [
+          () => '有问题可以和我聊聊，我在这里。',
+          buildStatusBubble,
+          () => `有事邮件联系：${siteMetadata.email}`,
+          () => '想看作息？输入 status 或 schedule。',
+          () => '点我打开终端，我们开始吧。',
+        ]
 
     const canShowBubble = () => {
       const now = Date.now()
@@ -230,7 +257,7 @@ export function ClaudeCodeTerminal() {
       bubbleLoopRef.current = window.setTimeout(() => {
         if (!isOpen && canShowBubble()) {
           const next = messages[Math.floor(Math.random() * messages.length)]
-          showBubble(next)
+          showBubble(next())
         }
         scheduleNext()
       }, delay)
@@ -250,9 +277,8 @@ export function ClaudeCodeTerminal() {
       window.removeEventListener('blur', handleBlur)
       window.removeEventListener('focus', handleFocus)
     }
-  }, [isOpen, isEnglish])
+  }, [isOpen, isEnglish, schedule])
 
-  const schedule = DAILY_SCHEDULE
   const currentMinutes = toMinutes(clock)
   const currentStatus = getStatusByMinutes(currentMinutes, schedule)
   const currentTimeText = formatTime(currentMinutes)

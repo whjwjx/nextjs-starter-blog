@@ -10,7 +10,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/avatar.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  email: 'whjwjx@gmail.com',
+  email: 'whj_cj2020@163.com',
   github: 'https://github.com/whjwjx',
   wechat: 'https://weixin.qq.com',
   xiaohongshu: 'https://www.xiaohongshu.com',
