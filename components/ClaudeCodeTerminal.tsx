@@ -68,10 +68,14 @@ export function ClaudeCodeTerminal() {
   const replyTimerRef = useRef<number | null>(null)
   const bubbleTimerRef = useRef<number | null>(null)
   const bubbleLoopRef = useRef<number | null>(null)
-  const [contentHeight, setContentHeight] = useState(256)
+  const [contentHeight, setContentHeight] = useState(400)
+  const [panelWidth, setPanelWidth] = useState(580)
   const resizingRef = useRef(false)
+  const resizingWidthRef = useRef(false)
   const startYRef = useRef(0)
   const startHeightRef = useRef(0)
+  const startXRef = useRef(0)
+  const startWidthRef = useRef(0)
   const welcomeShownRef = useRef(false)
   const lastBubbleAtRef = useRef(0)
   const idleTimerRef = useRef<number | null>(null)
@@ -415,24 +419,62 @@ export function ClaudeCodeTerminal() {
     window.addEventListener('mouseup', handleResizeEnd)
   }
 
+  const handleWidthResizing = useCallback((e: MouseEvent) => {
+    if (!resizingWidthRef.current) return
+    const delta = startXRef.current - e.clientX
+    const min = 320
+    const max = Math.max(360, Math.min(window.innerWidth - 64, 900))
+    let next = startWidthRef.current + delta
+    if (next < min) next = min
+    if (next > max) next = max
+    setPanelWidth(next)
+  }, [])
+
+  const handleWidthResizeEnd = useCallback(() => {
+    resizingWidthRef.current = false
+    window.removeEventListener('mousemove', handleWidthResizing)
+    window.removeEventListener('mouseup', handleWidthResizeEnd)
+  }, [handleWidthResizing])
+
+  const handleWidthResizeStart = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    resizingWidthRef.current = true
+    startXRef.current = e.clientX
+    startWidthRef.current = panelWidth
+    window.addEventListener('mousemove', handleWidthResizing)
+    window.addEventListener('mouseup', handleWidthResizeEnd)
+  }
+
   useEffect(() => {
     return () => {
       window.removeEventListener('mousemove', handleResizing)
       window.removeEventListener('mouseup', handleResizeEnd)
+      window.removeEventListener('mousemove', handleWidthResizing)
+      window.removeEventListener('mouseup', handleWidthResizeEnd)
     }
-  }, [handleResizing, handleResizeEnd])
+  }, [handleResizing, handleResizeEnd, handleWidthResizing, handleWidthResizeEnd])
 
   return (
     <div className="fixed right-6 bottom-6 z-50">
       <div className="flex flex-col items-end gap-3">
         {isOpen && (
-          <div className="relative w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-gray-900/95 text-gray-100 shadow-2xl backdrop-blur sm:w-[640px]">
+          <div
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-gray-900/95 text-gray-100 shadow-2xl backdrop-blur"
+            style={{ width: panelWidth }}
+          >
             <button
               type="button"
               aria-label="调整终端高度"
               onMouseDown={handleResizeStart}
               className="absolute top-0 right-0 left-0 z-10 h-2"
               style={{ cursor: 'ns-resize' }}
+            />
+            <button
+              type="button"
+              aria-label="调整终端宽度"
+              onMouseDown={handleWidthResizeStart}
+              className="absolute top-0 bottom-0 left-0 z-10 w-2"
+              style={{ cursor: 'ew-resize' }}
             />
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="flex items-center gap-2">
@@ -465,7 +507,7 @@ export function ClaudeCodeTerminal() {
             {!isMinimized && (
               <>
                 <div
-                  className="flex flex-col gap-4 overflow-y-auto px-4 py-4 text-sm"
+                  className="thin-scrollbar flex flex-col gap-4 overflow-y-auto px-4 py-4 text-sm"
                   style={{ height: contentHeight }}
                 >
                   {messages.map((message) => (
