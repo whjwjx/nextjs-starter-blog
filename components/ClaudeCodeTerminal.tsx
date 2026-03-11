@@ -485,7 +485,7 @@ export function ClaudeCodeTerminal() {
       <div className="flex flex-col items-end gap-3">
         {isOpen && (
           <div
-            className="fixed left-1/2 bottom-20 -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-gray-900/95 text-gray-100 shadow-2xl backdrop-blur sm:relative sm:left-auto sm:bottom-auto sm:translate-x-0"
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-gray-900/95 text-gray-100 shadow-2xl backdrop-blur sm:relative sm:bottom-auto sm:left-auto sm:translate-x-0"
             style={{ width: `min(${panelWidth}px, calc(100vw - 32px))` }}
           >
             <button
